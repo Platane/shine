@@ -1,0 +1,24 @@
+{
+  "name": "shine",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "bsb -make-world -w",
+    "startW": "webpack-dev-server --port 8082 --inline --devtool source-map --content-base ./ -d",
+    "build": "webpack -w",
+    "clean": "bsb -clean-world"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "react": "15.4.2",
+    "react-dom": "15.4.2",
+    "reason-react": "0.1.4"
+  },
+  "devDependencies": {
+    "bs-platform": "1.7.5",
+    "webpack": "3.0.0",
+    "webpack-dev-server" : "2.5.0",
+    "file-loader": "0.11.2",
+    "html-minify-loader": "1.1.0"
+  }
+}
