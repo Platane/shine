@@ -1,21 +1,9 @@
-Js.log "hello";
+Js.log "hello"; /* init var */
 
-/* types */
-type point = {
-  x: float,
-  y: float
-};
+let polygon: Type.polygon = [{x: 0.0, y: 0.0}, {x: 2.0, y: 5.0}, {x: 10.0, y: 2.0}];
 
-type polygon = list point;
-
-type badge = {zones: list polygon};
-
-/* init var */
-let polygon = [
-  {x: 0.0, y: 0.0},
-  {x: 2.0, y: 5.0},
-  {x: 10.0, y: 2.0}
-]; /* ReactDOMRe.renderToElementWithId <div /> "app"; */
+let setZones: list Type.polygon => unit = fun zones => Js.log zones;
 
 /* component */
-ReactDOMRe.renderToElementWithId <Badge zones=[polygon] colors=["red"] /> "app";
+ReactDOMRe.renderToElementWithId
+  <div> <DropZone setZones /> <Badge zones=[polygon] colors=["red"] /> </div> "app";

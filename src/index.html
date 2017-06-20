@@ -5,6 +5,19 @@
   </head>
   <body>
     <div id="app"></div>
+    <script>
+    const readFileAsText = (window.readFileAsText = (event, callback) => {
+  const rf = new FileReader();
+
+  rf.onerror = err => {
+    console.log(err);
+    callback('');
+  };
+  rf.onload = () => callback(rf.result);
+
+  rf.readAsText(event.dataTransfer.files[0]);
+});
+</script>
     <script src="index.js"></script>
   </body>
 </html>
