@@ -1,6 +1,18 @@
 let component = ReasonReact.statelessComponent "Zone";
 
-let polygonToSvgPath polygon => "M0 0 L10 0 L5 10z" /* let polygonToSvgPath: polygon => string = fun polygon => "000"; */;
+let pointToString (point: Type.point) :string =>
+  string_of_float point.x ^ "0 " ^ string_of_float point.y ^ "0";
+
+let prefix p s => p ^ s;
+
+let polygonToSvgPath polygon =>
+  switch polygon {
+  | [head, ...q] =>
+    "M" ^
+    pointToString head ^
+    String.concat "" (List.map (fun s => pointToString s |> prefix "L") q) ^ "z"
+  | [] => ""
+  };
 
 let make ::polygon ::fill _children => {
   ...component,
