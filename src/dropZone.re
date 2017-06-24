@@ -1,15 +1,24 @@
-external readFileAsText : 'event => (string => 'whatever) => 'whatever =
-  "window.readFileAsText" [@@bs.val];
+external readFileAsText : 'event => (string => unit) => unit = "window.readFileAsText" [@@bs.val];
 
-let parseSvg: string => list Type.polygon =
-  fun text => [[{x: 0.0, y: 0.0}, {x: 2.0, y: 5.0}, {x: 10.0, y: 2.0}]];
+external extractSvgPath : string => array string = "window.extractSvgPath" [@@bs.val];
+
+external svgPathToPolygon : string => array Type.point = "window.svgPathToPolygon" [@@bs.val];
 
 let component = ReasonReact.statelessComponent "DropZone";
 
 let handleDrop setZones event _ _ => {
   /* prevent from opening the image */
   ReactEventRe.Synthetic.preventDefault event;
-  readFileAsText event (fun text => setZones (parseSvg text))
+  readFileAsText
+    event
+    (
+      fun text => {
+        let paths = extractSvgPath text;
+        let polygons =
+          List.map (fun path => svgPathToPolygon path |> Array.to_list) (Array.to_list paths);
+        setZones polygons
+      }
+    )
 };
 
 let handleDragOver event _ _ => ReactEventRe.Synthetic.preventDefault event;

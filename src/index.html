@@ -6,7 +6,15 @@
   <body>
     <div id="app"></div>
     <script>
-    const readFileAsText = (window.readFileAsText = (event, callback) => {
+const extractSvgPath =window.extractSvgPath= textElement => {
+  const dom = document.createElement('div');
+
+  dom.innerHTML = textElement;
+
+  return Array.from(dom.querySelectorAll('path')).map( path => path.getAttribute('d'))
+};
+
+const readFileAsText = (window.readFileAsText = (event, callback) => {
   const rf = new FileReader();
 
   rf.onerror = err => {
@@ -17,6 +25,31 @@
 
   rf.readAsText(event.dataTransfer.files[0]);
 });
+
+const svgPathToPolygon = window.svgPathToPolygon = path => {
+
+  const numbers = path.replace(/[mML]/g, ' ').replace(/ +/g, ' ').trim().split(' ')
+
+  return Array.from({ length: Math.floor( numbers.length/2 ) })
+    .map(  (_, i) => [ +numbers[i*2], +numbers[i*2+1]  ])
+}
+
+// const svgPathToPolygon = window.svgPathToPolygon = path => {
+//
+//   const polygon = []
+//
+//   const regExp = /([MmLl]) *(\d+\.?\d*) *,? *(\d+\.?\d*)/g
+//
+//   let m
+//   while( m = regExp.exec( path ) ){
+//     const op = m[1];
+//
+//     polygon.push({x:+m[2], y:+m[3]})
+//   }
+//
+//   return polygon.map( p => [p.x,p.y])
+// }
+
 </script>
     <script src="index.js"></script>
   </body>
