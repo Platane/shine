@@ -5,7 +5,11 @@ type point = {
 
 type polygon = list point;
 
-type badge = {zones: list polygon};
+type zone = { vertices: polygon, normal:point };
+
+type badge = {
+  zones: list zone
+};
 
 type box = {
   max: point,

@@ -1,10 +1,33 @@
-let color hue => "hsl(" ^ string_of_int hue ^",60%,60%)";
+open Type;
 
+let color hue => "hsl(" ^ string_of_int hue ^ ",60%,60%)";
 
-/* compute colors of each zones, depending of the zone position, the zone normal and the lightSource */
-let computeColors (badge: Type.badge, _lightSource: Type.point) =>
-  List.map (fun _a => color (Random.int 360) ) badge.zones;
+let string_of_float2: float => string =
+  fun f => f < 0.0001 && f > (-0.0001) ? "0" : string_of_float f ^ "0";
 
+let color hue k =>
+  "hsl(" ^
+  string_of_float2 hue ^
+  "," ^ string_of_float2 (k *. 60.0 +. 20.0) ^ "%," ^ string_of_float2 (k *. 60.0 +. 20.0) ^ "%)";
 
+let computeColor: zone => point => string =
+  fun {normal, vertices} lightSource => {
+    let (center, _radius) = Point.boundingCircle vertices;
+    let n = Point.sub lightSource center |> Point.normalize;
+    let k = Point.dot n normal;
+    color 126.0 (k *. 0.5 +. 0.5)
+  };
 
-let computeDefaultNormals zones => List.map (fun _a => ({x: 1.0, y: 0.0}: Type.point)) zones;
+let computeDefaultZones: list polygon => list zone =
+  fun polygons => {
+    let (worldCenter, _radius) = Point.boundingCircle (List.flatten polygons);
+    List.map
+      (
+        fun polygon => {
+          let (center, _radius) = Point.boundingCircle polygon;
+          let normal = Point.sub worldCenter center |> Point.normalize;
+          {vertices: polygon, normal}
+        }
+      )
+      polygons
+  };
