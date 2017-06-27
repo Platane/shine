@@ -10,7 +10,8 @@ let polygonToSvgPath polygon =>
   | [head, ...q] =>
     "M" ^
     pointToString head ^
-    String.concat "" (List.map (fun s => pointToString s |> prefix "L") q) ^ "z"
+    String.concat "" (List.map (fun s => s |> pointToString |> prefix "L") q) ^
+    "z"
   | [] => ""
   };
 

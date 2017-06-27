@@ -11,13 +11,22 @@ module App = {
     ...component,
     initialState: fun () => {
       let badge: Type.badge = {
-        zones: [
-          [{x: 0.0, y: 0.0}, {x: 10.0, y: 0.0}, {x: 5.0, y: 4.0}],
-          [{x: 0.0, y: 10.0}, {x: 10.0, y: 10.0}, {x: 5.0, y: 14.0}]
-        ]
+        zones: []
       };
       let lightSource: Type.point = {x: 0.0, y: 0.0};
       {badge, lightSource}
+    },
+    didMount: fun _state self => {
+      Bs_fetch.fetch "ball.svg"
+        |> Js.Promise.then_ Bs_fetch.Response.text
+        |> Js.Promise.then_ (fun text => {
+          let polygons = Parse.svgToPolygons text;
+          (self.update setZones) polygons;
+          Js.Promise.resolve ()
+        })
+        |> ignore;
+
+      ReasonReact.NoUpdate
     },
     render: fun state self => {
       let {badge, lightSource} = state;

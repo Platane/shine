@@ -6,6 +6,8 @@ const production = 'production' == process.env.NODE_ENV;
 module.exports = {
   entry: {
     index: ['./lib/js/src/app.js', './src/index.html'],
+    elk: ['./src/asset/elk.svg'],
+    ball: ['./src/asset/ball.svg'],
   },
 
   output: {
@@ -22,6 +24,17 @@ module.exports = {
 
       {
         test: /\.html$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
         use: [
           {
             loader: 'file-loader',

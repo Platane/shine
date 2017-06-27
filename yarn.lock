@@ -296,6 +296,14 @@ browserify-zlib@^0.1.4:
   dependencies:
     pako "~0.2.0"
 
+"bs-fetch@github:buckletypes/bs-fetch":
+  version "0.1.1"
+  resolved "https://codeload.github.com/buckletypes/bs-fetch/tar.gz/076782cdd0b39e0fe61bf996294702663f339088"
+
+"bs-json@github:buckletypes/bs-json":
+  version "0.1.0"
+  resolved "https://codeload.github.com/buckletypes/bs-json/tar.gz/46f588df94c25da7d38aaf1092472f2d40babed9"
+
 bs-platform@1.7.5:
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-1.7.5.tgz#21dce7c87a19098cd5e5fd5e0a72ef65e296e7b2"
