@@ -1,6 +1,6 @@
 external requestAnimationFrame : (unit => unit) => unit = "requestAnimationFrame" [@@bs.val];
 
-let style = Type.getClassName "app";
+let style = Common.getClassName "app";
 
 
 module App = {
@@ -31,8 +31,8 @@ module App = {
   let rec loop t set => {
     let u = t + 1;
     let lightSource: Type.point = {
-      x: 340.0 *. cos (float_of_int u /. 30.0),
-      y: 340.0 *. sin (float_of_int u /. 30.0)
+      x: 3040.0 *. cos (float_of_int u /. 30.0),
+      y: 3040.0 *. sin (float_of_int u /. 30.0)
     };
     set lightSource;
     requestAnimationFrame (fun () => loop u set)
@@ -64,36 +64,16 @@ module App = {
       ReasonReact.NoUpdate
     },
 
-    render: fun state self => {
-
-      let {badge, lightSource} = state;
-
-      let colors =
-        List.map
-          (fun zone => Illuminate.computeColor zone lightSource)
-          badge.zones;
-
-      let extractVertices : Type.zone => Type.polygon = fun zone => zone.vertices;
-
-      let viewport = List.map extractVertices badge.zones |> List.flatten |> Point.boundingBox |> ( fun box => Point.expandBoundingBox box {x:160.0,y:160.0} );
-
-
-      <div className=( style "container" )>
-        <div className=( style "editor" )>
-          <Canvas viewport>
-            <Arrow b=lightSource a={x:0.0, y:0.0} />
-            <Zones colors zones=(badge.zones) />
-            <Normals zones=(badge.zones) />
-            <LightSource lightSource />
-          </Canvas>
-
-          <DropZone setZones=(self.update setZones) />
-        </div>
-        <div className=( style "badge" )>
-          <Badge lightSource zones=badge.zones />
-        </div>
+    render: fun state self =>
+    <div className=( style "container" )>
+      <div className=( style "editor" )>
+        <BadgeEditor zones=state.badge.zones lightSource=state.lightSource />
       </div>
-    }
+      <div className=( style "badge" )>
+        <Badge zones=state.badge.zones lightSource=state.lightSource />
+      </div>
+      <DropZone setZones=(self.update setZones) />
+    </div>
   };
 };
 
