@@ -6,10 +6,14 @@ module App = {
     lightSource: Type.point
   };
 
-  let setZones polygons state _self => {
-    let zones = Illuminate.computeDefaultZones polygons;
+  let setZones paths state _self => {
+
+    let zones = paths
+      |> Illuminate.computeDefaultZones;
+
     ReasonReact.Update {...state, badge: {zones: zones}}
   };
+
   let setLightSource lightSource state _self => ReasonReact.Update {...state, lightSource};
 
 
@@ -24,8 +28,8 @@ module App = {
   let rec loop t set => {
     let u = t + 1;
     let lightSource: Type.point = {
-      x: 500.0 *. cos (float_of_int u /. 30.0),
-      y: 500.0 *. sin (float_of_int u /. 30.0)
+      x: 340.0 *. cos (float_of_int u /. 30.0),
+      y: 340.0 *. sin (float_of_int u /. 30.0)
     };
     set lightSource;
     requestAnimationFrame (fun () => loop u set)
@@ -41,27 +45,44 @@ module App = {
       {badge, lightSource}
     },
     didMount: fun _state self => {
-      Bs_fetch.fetch "ball.svg" |> Js.Promise.then_ Bs_fetch.Response.text |>
-      Js.Promise.then_ (
-        fun text => {
-          let polygons = Parse.svgToPolygons text;
-          (self.update setZones) polygons;
-          Js.Promise.resolve ()
-        }
-      ) |> ignore;
+
+      Bs_fetch.fetch "elk.svg"
+        |> Js.Promise.then_ Bs_fetch.Response.text
+        |> Js.Promise.then_ (
+          fun text => {
+            text |> Parse.extractSvgPath |> (self.update setZones);
+            Js.Promise.resolve ()
+          }
+        )
+      |> ignore;
+
       loop 0 (self.update setLightSource);
+
       ReasonReact.NoUpdate
     },
-    render: fun state self => {
+
+    render: fun state _self => {
+
       let {badge, lightSource} = state;
+
       let colors =
         List.map
           (fun zone => Illuminate.computeColor zone lightSource)
           badge.zones;
+
+      let extractVertices : Type.zone => Type.polygon = fun zone => zone.vertices;
+
+      let viewport = List.map extractVertices badge.zones |> List.flatten |> Point.boundingBox;
+
+
       <div>
-        <div />
-        <Badge zones=badge.zones colors />
-        <DropZone setZones=(self.update setZones) />
+        <Canvas viewport>
+          <Arrow b=lightSource a={x:0.0, y:0.0} />
+          <Zones colors zones=(badge.zones) />
+          <Normals zones=(badge.zones) />
+          <LightSource lightSource />
+        </Canvas>
+
       </div>
     }
   };

@@ -5,7 +5,12 @@ type point = {
 
 type polygon = list point;
 
-type zone = { vertices: polygon, normal:point };
+type zone = {
+  path: string,
+  vertices: polygon,
+  normal:point,
+  center:point
+};
 
 type badge = {
   zones: list zone

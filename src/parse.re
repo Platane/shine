@@ -1,10 +1,9 @@
 external readFileAsText : 'event => (string => unit) => unit = "window.readFileAsText" [@@bs.val];
 
-external extractSvgPath : string => array string = "window.extractSvgPath" [@@bs.val];
+external extractSvgPath_ : string => array string = "window.extractSvgPath" [@@bs.val];
 
-external svgPathToPolygon : string => array Type.point = "window.svgPathToPolygon" [@@bs.val];
+external svgPathToPolygon_ : string => array Type.point = "window.svgPathToPolygon" [@@bs.val];
 
-let svgToPolygons: string => list Type.polygon =
-  fun text =>
-    extractSvgPath text |> Array.to_list |>
-    List.map (fun path => path |> svgPathToPolygon |> Array.to_list);
+let extractSvgPath x => extractSvgPath_ x |> Array.to_list;
+
+let svgPathToPolygon x => svgPathToPolygon_ x |> Array.to_list;
