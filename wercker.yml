@@ -1,17 +1,9 @@
 
 build:
 
-  box: mzpi/bucklescript
+  box: node:8.0
 
   steps:
-    - script:
-      code: |
-        node --version
-        bsb --help
-
-    # - script:
-    #   name: remove bucklescript from package.json
-    #   code: node -e "var pkg=require('./package.json');delete pkg.devDependencies['bs-platform'];require('fs').writeFileSync('./package.json',JSON.stringify(pkg))"
 
     - npm-install:
       options:
