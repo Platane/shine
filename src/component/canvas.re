@@ -1,5 +1,5 @@
 
-let style = Type.getClassName "canvas";
+let style = Common.getClassName "canvas";
 
 let makeViewBox: Type.box => string =
   fun box =>

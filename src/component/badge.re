@@ -1,4 +1,4 @@
-let style = Type.getClassName "badge";
+let style = Common.getClassName "badge";
 
 let component = ReasonReact.statelessComponent "Badge";
 

@@ -21,4 +21,3 @@ type box = {
   min: point
 };
 
-external getClassName : string => string => string = "window.getClassName" [@@bs.val];
