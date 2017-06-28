@@ -1,0 +1,23 @@
+{
+  "presets": [
+    "react"
+  ],
+  "plugins": [
+    "transform-class-properties",
+    "transform-es2015-modules-commonjs",
+    "transform-object-rest-spread"
+  ],
+
+  "env": {
+    "production": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "browsers": ["last 2 versions", "safari >= 7"]
+          }
+        }]
+      ]
+    }
+  }
+
+}

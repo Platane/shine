@@ -1,4 +1,6 @@
 
+let style = Type.getClassName "canvas";
+
 let makeViewBox: Type.box => string =
   fun box =>
     String.concat
@@ -19,7 +21,7 @@ let make viewport::(viewport: Type.box) children => {
   ...component,
   render: fun () _self => {
 
-    <svg viewBox=(makeViewBox viewport)>
+    <svg className=( style "container" ) viewBox=(makeViewBox viewport)>
       ( ReasonReact.arrayToElement children )
     </svg>
   }

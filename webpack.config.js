@@ -1,11 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const production = 'production' === process.env.NODE_ENV;
 
 module.exports = {
   entry: {
-    index: ['./lib/js/src/app.js', './src/index.html'],
+    index: ['./src/js/index.js', './lib/js/src/app.js', './src/index.html'],
   },
 
   output: {
@@ -17,7 +18,11 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: [],
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+        ],
       },
 
       {
@@ -30,6 +35,24 @@ module.exports = {
             },
           },
         ],
+      },
+
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: true,
+                localIdentName: production
+                  ? '[hash:8]'
+                  : '[path][name]---[local]',
+              },
+            },
+          ],
+        }),
       },
     ],
   },
@@ -47,6 +70,10 @@ module.exports = {
       // env var
       ['process.env.NODE_ENV']: `'${process.env.NODE_ENV}'`,
     }),
+
+    new ExtractTextPlugin({ filename: 'style.css', allChunks: true }),
+
+    new webpack.NamedModulesPlugin(),
 
     new webpack.optimize.ModuleConcatenationPlugin(),
 
