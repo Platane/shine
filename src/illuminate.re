@@ -1,7 +1,5 @@
 open Type;
 
-let color hue => "hsl(" ^ string_of_int hue ^ ",60%,60%)";
-
 let string_of_float2: float => string =
   fun f => f < 0.0001 && f > (-0.0001) ? "0" : string_of_float f ^ "0";
 

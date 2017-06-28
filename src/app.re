@@ -1,5 +1,8 @@
 external requestAnimationFrame : (unit => unit) => unit = "requestAnimationFrame" [@@bs.val];
 
+let style = Type.getClassName "app";
+
+
 module App = {
   type state = {
     badge: Type.badge,
@@ -75,15 +78,20 @@ module App = {
       let viewport = List.map extractVertices badge.zones |> List.flatten |> Point.boundingBox |> ( fun box => Point.expandBoundingBox box {x:160.0,y:160.0} );
 
 
-      <div>
-        <Canvas viewport>
-          <Arrow b=lightSource a={x:0.0, y:0.0} />
-          <Zones colors zones=(badge.zones) />
-          <Normals zones=(badge.zones) />
-          <LightSource lightSource />
-        </Canvas>
+      <div className=( style "container" )>
+        <div className=( style "editor" )>
+          <Canvas viewport>
+            <Arrow b=lightSource a={x:0.0, y:0.0} />
+            <Zones colors zones=(badge.zones) />
+            <Normals zones=(badge.zones) />
+            <LightSource lightSource />
+          </Canvas>
 
-        <DropZone setZones=(self.update setZones) />
+          <DropZone setZones=(self.update setZones) />
+        </div>
+        <div className=( style "badge" )>
+          <Badge lightSource zones=badge.zones />
+        </div>
       </div>
     }
   };

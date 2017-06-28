@@ -1,0 +1,15 @@
+.container {
+  position: relative;
+}
+.editor {
+  position: relative;
+  width: 80%;
+  height: 90%;
+}
+.badge {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  width: 80px;
+  height: 80px;
+}

@@ -37,6 +37,6 @@ let make a::(a: Type.point) b::(b: Type.point) _children => {
           "z"
         ];
 
-    <path d stroke="#888" fill="none" />
+    <path d stroke="#888" fill="#888" />
   }
 };
