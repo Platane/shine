@@ -5,7 +5,7 @@
   "scripts": {
     "start": "bsb -make-world -w",
     "startW": "webpack-dev-server --port 8082 --inline --devtool source-map --content-base ./ -d",
-    "build": "env NODE_ENV=production webpack",
+    "build": "bsb -make-world && env NODE_ENV=production webpack",
     "clean": "bsb -clean-world"
   },
   "license": "MIT",
