@@ -1,12 +1,9 @@
 open Type;
 
-let string_of_float2: float => string =
-  fun f => f < 0.0001 && f > (-0.0001) ? "0" : string_of_float f ^ "0";
-
 let color hue k =>
   "hsl(" ^
-  string_of_float2 hue ^
-  "," ^ string_of_float2 (k *. 60.0 +. 20.0) ^ "%," ^ string_of_float2 (k *. 60.0 +. 20.0) ^ "%)";
+  Common.string_of_float hue ^
+  "," ^ Common.string_of_float (k *. 60.0 +. 20.0) ^ "%," ^ Common.string_of_float (k *. 60.0 +. 20.0) ^ "%)";
 
 let computeColor: zone => point => string =
   fun {normal, center} lightSource => {
