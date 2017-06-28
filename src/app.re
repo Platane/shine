@@ -61,7 +61,7 @@ module App = {
       ReasonReact.NoUpdate
     },
 
-    render: fun state _self => {
+    render: fun state self => {
 
       let {badge, lightSource} = state;
 
@@ -72,7 +72,7 @@ module App = {
 
       let extractVertices : Type.zone => Type.polygon = fun zone => zone.vertices;
 
-      let viewport = List.map extractVertices badge.zones |> List.flatten |> Point.boundingBox;
+      let viewport = List.map extractVertices badge.zones |> List.flatten |> Point.boundingBox |> ( fun box => Point.expandBoundingBox box {x:160.0,y:160.0} );
 
 
       <div>
@@ -83,6 +83,7 @@ module App = {
           <LightSource lightSource />
         </Canvas>
 
+        <DropZone setZones=(self.update setZones) />
       </div>
     }
   };

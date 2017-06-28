@@ -31,6 +31,12 @@ let rec boundingBox (points: list point) :box =>
     }
   };
 
+let expandBoundingBox : box => point => box = fun box m =>
+  {
+    max : add box.max ( scale m 0.5 ),
+    min : sub box.min ( scale m 0.5 ),
+  };
+
 let rec sumPoints (points: list point) :point =>
   switch points {
   | [] => {x: 0.0, y: 0.0}

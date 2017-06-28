@@ -3,7 +3,7 @@ let component = ReasonReact.statelessComponent "DropZone";
 let handleDrop setZones event _ _ => {
   /* prevent from opening the image */
   ReactEventRe.Synthetic.preventDefault event;
-  Parse.readFileAsText event ( Parse.extractSvgPath |> setZones )
+  Parse.readFileAsText event ( fun text => text |> Parse.extractSvgPath |> setZones )
 };
 
 let handleDragOver event _ _ => ReactEventRe.Synthetic.preventDefault event;
