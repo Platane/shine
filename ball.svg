@@ -1,0 +1,8 @@
+<svg viewBox="-60 -60 120 120" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <path stroke="none" fill="#3399cc" d="M0 0L60 0L30.0 51.96152422706631" />
+    <path stroke="none" fill="#003300" d="M0 0L30.0 51.96152422706631L-30 51.96152422706632" />
+    <path stroke="none" fill="#000000" d="M0 0L-30 51.96152422706632L-60 0" />
+    <path stroke="none" fill="#006600" d="M0 0L-60 0L-30.0 -51.961524227066306" />
+    <path stroke="none" fill="#33cc99" d="M0 0L-30.0 -51.961524227066306L30.0 -51.96152422706631" />
+    <path stroke="none" fill="#336699" d="M0 0L30.0 -51.96152422706631L60 -0" />
+</svg>
