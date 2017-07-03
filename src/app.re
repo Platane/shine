@@ -17,6 +17,15 @@ module App = {
     ReasonReact.Update {...state, badge: {zones: zones}}
   };
 
+  let setNormal : ( int , Type.point ) => state => 'b => 'c = fun ( i, normal ) state _self => {
+
+    let transform : ( int => Type.zone => Type.zone ) = fun j zone => j == i ? { ...zone, normal } : zone;
+
+    let zones = List.mapi transform  state.badge.zones;
+
+    ReasonReact.Update {...state, badge: {zones: zones}}
+  };
+
   let setLightSource lightSource state _self => ReasonReact.Update {...state, lightSource};
 
 
@@ -49,7 +58,7 @@ module App = {
     },
     didMount: fun _state self => {
 
-      Bs_fetch.fetch "elk.svg"
+      Bs_fetch.fetch "ball.svg"
         |> Js.Promise.then_ Bs_fetch.Response.text
         |> Js.Promise.then_ (
           fun text => {
@@ -64,16 +73,20 @@ module App = {
       ReasonReact.NoUpdate
     },
 
-    render: fun state self =>
-    <div className=( style "container" )>
-      <div className=( style "editor" )>
-        <BadgeEditor zones=state.badge.zones lightSource=state.lightSource />
+    render: fun state self => {
+
+      let setNormal_ : int => Type.point => unit = fun i point => ( self.update setNormal )( i, point );
+
+      <div className=( style "container" )>
+        <div className=( style "editor" )>
+          <BadgeEditor zones=state.badge.zones lightSource=state.lightSource setNormal=setNormal_ />
+        </div>
+        <div className=( style "badge" )>
+          <Badge zones=state.badge.zones lightSource=state.lightSource  />
+        </div>
+        <DropZone setZones=(self.update setZones) />
       </div>
-      <div className=( style "badge" )>
-        <Badge zones=state.badge.zones lightSource=state.lightSource />
-      </div>
-      <DropZone setZones=(self.update setZones) />
-    </div>
+    }
   };
 };
 

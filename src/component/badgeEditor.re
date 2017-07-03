@@ -41,7 +41,7 @@ type state = {
 
 let component = ReasonReact.statelessComponent "BadgeEditor";
 
-let make zones::(zones: list zone) lightSource::(lightSource: point) _children => {
+let make zones::(zones: list zone) lightSource::(lightSource: point) ::setNormal _children => {
 
   ...component,
 
@@ -73,7 +73,7 @@ let make zones::(zones: list zone) lightSource::(lightSource: point) _children =
         <Canvas viewport=viewport >
           <Arrow b=lightSource a={x:0.0, y:0.0} />
           <Zones colors zones=zones_ />
-          <Normals zones=zones_ />
+          <Normals zones=zones_ setNormal />
           <LightSource lightSource />
         </Canvas>
     </div>
